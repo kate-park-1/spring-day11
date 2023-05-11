@@ -21,4 +21,11 @@ public class Member {
 
   @Embedded
   private Address address;
+
+  @Override
+  public String toString() {
+    return "Member : id("+ id + ")" +
+            "loginId : " +  loginId +
+            "name : " + name ;
+  }
 }
