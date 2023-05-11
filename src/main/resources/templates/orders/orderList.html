@@ -12,11 +12,12 @@
 <!--    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/items/addItem}'|">상품 등록</button>-->
 <!--  </div>-->
 
-  <form>
+  <form th:object="${orderSearchCondition}">
     <label>주문회원</label>
-    <input type="text" th:field="회원명"/>
+    <input type="text" th:field="*{memberName}" placeholder="회원명"/>
     <label>주문상태</label>
-    <select name="orderStatus">
+    <select name="orderStatus" th:field="*{orderStatus}">
+      <option value="">주문상태</option>
       <option th:each="status : ${T(Order.miniproject.domain.OrderStatus).values()}"
               th:value="${status}" th:text="${status}"></option>
     </select>

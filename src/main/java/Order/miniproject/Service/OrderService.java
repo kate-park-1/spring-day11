@@ -4,6 +4,7 @@ import Order.miniproject.domain.Item;
 import Order.miniproject.domain.Member;
 import Order.miniproject.domain.Order;
 import Order.miniproject.domain.OrderItem;
+import Order.miniproject.domain.dto.OrderSearchCondition;
 import Order.miniproject.repository.ItemRepository;
 import Order.miniproject.repository.MemberRepository;
 import Order.miniproject.repository.OrderRepository;
@@ -48,5 +49,8 @@ public class OrderService {
   public List<Order> getOrderList() { // 검색조건 (사용자, 상태, 일자)
     return orderRepository.findAll();
   }
-
+  public List<Order> getOrderbySearch(OrderSearchCondition searchCondition)
+  { // 검색조건 (사용자, 상태, 일자)
+    return orderRepository.findAllByCondition(searchCondition);
+  }
 }

@@ -3,6 +3,7 @@ package Order.miniproject.controller;
 import Order.miniproject.Service.ItemService;
 import Order.miniproject.Service.MemberService;
 import Order.miniproject.Service.OrderService;
+import Order.miniproject.domain.dto.OrderSearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +18,9 @@ public class OrderController {
   private final ItemService itemService;
 
   @GetMapping("/orderList")
-  public String orderList(Model model){
-    model.addAttribute("orders", orderService.getOrderList());
+  public String orderList(@ModelAttribute OrderSearchCondition orderSearch,
+                          Model model){
+    model.addAttribute("orders", orderService.getOrderbySearch(orderSearch));
     return "orders/orderList";
   }
 

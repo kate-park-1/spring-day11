@@ -3,6 +3,8 @@ package Order.miniproject.Service;
 import Order.miniproject.domain.*;
 import Order.miniproject.domain.dto.MemberDto;
 import Order.miniproject.repository.OrderRepository;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,15 +13,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Access;
+import javax.persistence.EntityManager;
 
 import java.util.List;
 
+import static Order.miniproject.domain.QMember.member;
+import static Order.miniproject.domain.QOrder.order;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 class OrderServiceTest {
+  @Autowired EntityManager em;
   @Autowired
   OrderService orderService;
   @Autowired
@@ -81,6 +87,23 @@ class OrderServiceTest {
   void 주문검색테스트(){
     List<Order> orderList = orderRepository.findAllByMemberAndOrderStatus();
     assertThat(2).isEqualTo(orderList.size());
+  }
+
+  @Test
+  void queryDSLTest(){
+   JPAQueryFactory query = new JPAQueryFactory(em);
+   QMember m = member;
+   QOrder o = order;
+
+    List<Order> orders = query
+        .select(o)
+        .from(o)
+        .join(o.member, m)
+        .where(m.name.eq("멤버1"),
+            o.orderStatus.eq(OrderStatus.CANCEL))
+        .fetch();
+
+    assertThat(orders.size()).isEqualTo(1);
   }
 
   Long createMember(){
