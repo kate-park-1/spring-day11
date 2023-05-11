@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +21,17 @@ public class MemberService {
   public Long join(MemberDto memberDto){
     Member member = new Member();
     member.setName(memberDto.getName());
+    member.setLoginId(memberDto.getLoginId());
+    member.setPassword(memberDto.getPassword());
     member.setAddress(memberDto.getAddress());
+    validateDuplicateMember(memberDto);
     memberRepository.save(member);
     return member.getId();
+  }
+
+  private void validateDuplicateMember(MemberDto memberDto){
+    Optional<Member> findLoginId = memberRepository.findByLoginId(memberDto.getLoginId());
+    System.out.println(findLoginId);
   }
 
   public List<Member> findAllMembers(){

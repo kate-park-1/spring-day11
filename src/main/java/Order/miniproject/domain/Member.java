@@ -14,6 +14,10 @@ public class Member {
   private Long id;
   @Column(nullable = false, length = 45)
   private String name;
+  @Column(name="login_id", nullable = false, length = 10, unique = true)
+  private String loginId;
+  @Column(nullable = false, length = 10)
+  private String password;
 
   @Embedded
   private Address address;

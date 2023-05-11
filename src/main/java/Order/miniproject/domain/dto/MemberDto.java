@@ -8,8 +8,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberDto {
+public class MemberDto { // 변경
   Long id;
   String name;
+  String loginId;
+  String password;
   Address address;
 }

@@ -20,7 +20,6 @@ import static Order.miniproject.domain.QMember.member;
 import static Order.miniproject.domain.QOrder.order;
 
 @Repository
-//@RequiredArgsConstructor
 public class OrderRepository {
   private final EntityManager em;
   private final JPAQueryFactory query;
